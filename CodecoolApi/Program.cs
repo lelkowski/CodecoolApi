@@ -29,6 +29,12 @@ builder.Services.AddScoped<ITypeService, TypeService>();
 builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 builder.Services.AddScoped<LogHandlerMiddleware>();
 
+builder.Services.AddCors(o => o.AddDefaultPolicy(builder => {
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
