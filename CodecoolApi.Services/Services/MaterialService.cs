@@ -48,6 +48,22 @@ namespace CodecoolApi.Services.Services
             return _mapper.Map<IEnumerable<MaterialDto>>(materials);
         }
 
+        public async Task<IEnumerable<MaterialDto>> GetAllWithNestedDataWithReviewsAboveAverageAsync()
+        {
+            var materials = await _unitOfWork.Materials.GetAllWithNestedDataAsync();
+            var materialsAboveAverage = materials.Where(material => material.Reviews.Average(review => review.DigitReview) > 5);
+            return _mapper.Map<IEnumerable<MaterialDto>>(materialsAboveAverage);
+        }
+
+        public async Task<IEnumerable<MaterialDto>> GetAllWithNestedDataWithReviewsAboveAverageAsync(int id)
+        {
+            var materials = await _unitOfWork.Materials.GetAllWithNestedDataAsync();
+            if (id == 0 || _unitOfWork.Authors.GetAsync(id) == null)
+                throw new Exception();
+            var materialsAboveAverage = materials.Where(material => material.Reviews.Average(review => review.DigitReview) > 5 && material.AuthorId == id);
+            return _mapper.Map<IEnumerable<MaterialDto>>(materialsAboveAverage);
+        }
+
         public async Task<MaterialDto> GetAsync(int id)
         {
             var material = await _unitOfWork.Materials.GetWithNestedDataAsync(id);

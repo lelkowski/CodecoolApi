@@ -21,10 +21,21 @@ namespace CodecoolApi.Controllers
         public async Task<IActionResult> GetAllAsync()
             => Ok(await _service.GetAllAsync());
 
+        [SwaggerOperation(Summary = "Returns All Materials With Reviews Above Average")]
+        [HttpGet("average")]
+        public async Task<IActionResult> GetAllWithReviewsAboveAverageAsync()
+            => Ok(await _service.GetAllWithNestedDataWithReviewsAboveAverageAsync());
+
+
         [SwaggerOperation(Summary = "Returns Specific Material")]
         [HttpGet("{id}", Name = "GetMaterialAsync")]
         public async Task<IActionResult> GetAuthorAsync(int id)
             => Ok(await _service.GetAsync(id));
+
+        [SwaggerOperation(Summary = "Returns All Materials With Reviews Above Average From Specific Author")]
+        [HttpGet("{id}/average")]
+        public async Task<IActionResult> GetAllWithReviewsAboveAverageFromSpecificAuthorAsync(int id)
+            => Ok(await _service.GetAllWithNestedDataWithReviewsAboveAverageAsync(id));
 
         [SwaggerOperation(Summary = "Creates New Material")]
         [HttpPost]

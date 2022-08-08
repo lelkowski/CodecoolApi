@@ -14,5 +14,7 @@ namespace CodecoolApi.Services.Services.Interfaces
         Task<IEnumerable<MaterialDto>> GetAllAsync();
         Task<MaterialDto> CreateNewAsync(CreateUpdateMaterialDto dto);
         Task DeleteAsync(int id);
+        Task<IEnumerable<MaterialDto>> GetAllWithNestedDataWithReviewsAboveAverageAsync();
+        Task<IEnumerable<MaterialDto>> GetAllWithNestedDataWithReviewsAboveAverageAsync(int id);
     }
 }
