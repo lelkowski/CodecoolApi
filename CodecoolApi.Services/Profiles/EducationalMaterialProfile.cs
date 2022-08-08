@@ -13,7 +13,7 @@ namespace CodecoolApi.Services.Profiles
     {
         public EducationalMaterialProfile()
         {
-            CreateMap<EducationalMaterial, CreateUpdateMaterialDto>();
+            CreateMap<CreateUpdateMaterialDto, EducationalMaterial>();
         }
     }
 }

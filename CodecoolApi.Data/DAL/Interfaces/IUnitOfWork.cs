@@ -9,7 +9,7 @@ namespace CodecoolApi.Data.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<Author> Authors { get; }
+        IAuthorRepository Authors { get; }
         IRepository<EducationalMaterial> Materials { get; }
         IRepository<EducationalMaterialReview> Reviews { get; }
         IRepository<EducationalMaterialType> Types { get; }

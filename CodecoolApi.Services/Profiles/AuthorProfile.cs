@@ -13,7 +13,8 @@ namespace CodecoolApi.Services.Profiles
     {
         public AuthorProfile()
         {
-            CreateMap<Author, CreateUpdateAuthorDto>();
+            CreateMap<CreateUpdateAuthorDto, Author>();
+            CreateMap<Author, AuthorDto>().ForMember(pts => pts.MaterialNames, opt => opt.MapFrom(ps => ps.Materials.Select(Material => Material.Title)));
         }
     }
 }

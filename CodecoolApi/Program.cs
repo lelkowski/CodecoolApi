@@ -1,4 +1,8 @@
 using CodecoolApi.Data.Context;
+using CodecoolApi.Data.DAL;
+using CodecoolApi.Data.DAL.Interfaces;
+using CodecoolApi.Services.Services;
+using CodecoolApi.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +13,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var connectionString = builder.Configuration.GetConnectionString("CodecoolApiDb");
 builder.Services.AddDbContext<CodecoolApiContext>(options => options.UseSqlServer(connectionString));
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 var app = builder.Build();
 

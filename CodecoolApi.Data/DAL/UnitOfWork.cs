@@ -14,7 +14,7 @@ namespace CodecoolApi.Data.DAL
     {
         private CodecoolApiContext _context;
 
-        public IRepository<Author> Authors { get; }
+        public IAuthorRepository Authors { get; }
         public IRepository<EducationalMaterial> Materials { get; }
         public IRepository<EducationalMaterialReview> Reviews { get; }
         public IRepository<EducationalMaterialType> Types { get; }
@@ -22,7 +22,7 @@ namespace CodecoolApi.Data.DAL
         public UnitOfWork(CodecoolApiContext context)
         {
             _context = context;
-            Authors = new Repository<Author>(_context);
+            Authors = new AuthorRepository(_context);
             Materials = new Repository<EducationalMaterial>(_context);
             Reviews = new Repository<EducationalMaterialReview>(_context);
             Types = new Repository<EducationalMaterialType>(_context);
