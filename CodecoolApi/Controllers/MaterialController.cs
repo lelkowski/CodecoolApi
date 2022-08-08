@@ -32,6 +32,14 @@ namespace CodecoolApi.Controllers
         public async Task<IActionResult> GetAuthorAsync(int id)
             => Ok(await _service.GetAsync(id));
 
+        [SwaggerOperation(Summary = "Updates Specific Material")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMaterialAsync(int id, CreateUpdateMaterialDto dto)
+        {
+            await _service.UpdateAsync(id, dto);
+            return NoContent();
+        }
+
         [SwaggerOperation(Summary = "Returns All Materials With Reviews Above Average From Specific Author")]
         [HttpGet("{id}/average")]
         public async Task<IActionResult> GetAllWithReviewsAboveAverageFromSpecificAuthorAsync(int id)

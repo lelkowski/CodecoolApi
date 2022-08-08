@@ -16,5 +16,6 @@ namespace CodecoolApi.Services.Services.Interfaces
         Task<TypeDto> CreateNewAsync(CreateUpdateTypeDto dto);
         Task DeleteAsync(int id);
         Task<IEnumerable<MaterialDto>> GetMaterialsFromSpecificTypeAsync(int id);
+        Task UpdateAsync(int id, CreateUpdateTypeDto dto);
     }
 }

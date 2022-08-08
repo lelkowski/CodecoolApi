@@ -71,5 +71,17 @@ namespace CodecoolApi.Services.Services
                 throw new Exception($"Material with id {id} not found");
             return _mapper.Map<MaterialDto>(material);
         }
+
+        public async Task UpdateAsync(int id, CreateUpdateMaterialDto dto)
+        {
+            var material = await _unitOfWork.Materials.GetAsync(id);
+            if (material == null)
+            {
+                throw new Exception();
+            }
+            _mapper.Map(dto, material);
+            _unitOfWork.Materials.Update(material);
+            await _unitOfWork.CompleteUnitAsync();
+        }
     }
 }

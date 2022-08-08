@@ -49,5 +49,13 @@ namespace CodecoolApi.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+        [SwaggerOperation(Summary = "Updates Specific Type")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateReviewAsync(int id, CreateUpdateTypeDto dto)
+        {
+            await _service.UpdateAsync(id, dto);
+            return NoContent();
+        }
     }
 }

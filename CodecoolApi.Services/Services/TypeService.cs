@@ -64,5 +64,16 @@ namespace CodecoolApi.Services.Services
                 throw new Exception($"Type with id {id} not found");
             return _mapper.Map<IEnumerable<MaterialDto>>(type.Materials);
         }
+        public async Task UpdateAsync(int id, CreateUpdateTypeDto dto)
+        {
+            var type = await _unitOfWork.Types.GetAsync(id);
+            if (type == null)
+            {
+                throw new Exception();
+            }
+            _mapper.Map(dto, type);
+            _unitOfWork.Types.Update(type);
+            await _unitOfWork.CompleteUnitAsync();
+        }
     }
 }

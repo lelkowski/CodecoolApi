@@ -54,5 +54,17 @@ namespace CodecoolApi.Services.Services
                 throw new Exception($"Review with id {id} not found");
             return _mapper.Map<ReviewDto>(review);
         }
+
+        public async Task UpdateAsync(int id, CreateUpdateReviewDto dto)
+        {
+            var review = await _unitOfWork.Reviews.GetAsync(id);
+            if (review == null)
+            {
+                throw new Exception();
+            }
+            _mapper.Map(dto, review);
+            _unitOfWork.Reviews.Update(review);
+            await _unitOfWork.CompleteUnitAsync();
+        }
     }
 }

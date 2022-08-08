@@ -10,6 +10,7 @@ namespace CodecoolApi.Services.Services.Interfaces
 {
     public interface IMaterialService
     {
+        Task UpdateAsync(int id, CreateUpdateMaterialDto dto);
         Task<MaterialDto> GetAsync(int id);
         Task<IEnumerable<MaterialDto>> GetAllAsync();
         Task<MaterialDto> CreateNewAsync(CreateUpdateMaterialDto dto);
