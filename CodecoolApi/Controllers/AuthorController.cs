@@ -24,8 +24,14 @@ namespace CodecoolApi.Controllers
         [SwaggerOperation(Summary = "Returns Specific Author")]
         [HttpGet("{id}", Name = "GetAuthorAsync")]
         public async Task<IActionResult> GetAuthorAsync(int id)
-            => Ok(await _service.GetAsync(id)); 
-        
+            => Ok(await _service.GetAsync(id));
+
+        [SwaggerOperation(Summary = "Returns Most Productive Author")]
+        [HttpGet("mostProductive", Name = "GetMostProductiveAuthorAsync")]
+        public async Task<IActionResult> GetMostProductiveAuthorAsync()
+            => Ok(await _service.GetMostProductiveAuthorAsync());
+
+
         [SwaggerOperation(Summary = "Creates New Author")]
         [HttpPost]
         public async Task<IActionResult> CreateNewAsync(CreateUpdateAuthorDto dto)

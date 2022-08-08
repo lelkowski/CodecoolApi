@@ -25,5 +25,9 @@ namespace CodecoolApi.Data.DAL.Repositories
         => await _context.Authors
                 .Include(author => author.Materials)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+        public async Task<Author> GetMostProductiveAuthorAsync()
+            => await _context.Authors.Include(author => author.Materials).
+            OrderByDescending(x => x.Counter).FirstOrDefaultAsync();
     }
 }

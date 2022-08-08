@@ -53,5 +53,13 @@ namespace CodecoolApi.Services.Services
                 throw new Exception($"Author with id {id} not found");
             return _mapper.Map<AuthorDto>(author);
         }
+
+        public async Task<AuthorDto> GetMostProductiveAuthorAsync()
+        {
+            var author = await _unitOfWork.Authors.GetMostProductiveAuthorAsync();
+            if (author is null)
+                throw new Exception($"Author not found");
+            return _mapper.Map<AuthorDto>(author);
+        }
     }
 }

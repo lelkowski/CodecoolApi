@@ -7,5 +7,6 @@ namespace CodecoolApi.Data.DAL.Interfaces
         Task<IEnumerable<Author>> GetAllWithNestedDataAsync();
 
         Task<Author> GetWithNestedDataAsync(int id);
+        Task<Author> GetMostProductiveAuthorAsync();
     }
 }
