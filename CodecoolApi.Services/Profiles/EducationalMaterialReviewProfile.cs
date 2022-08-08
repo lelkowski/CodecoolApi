@@ -14,6 +14,8 @@ namespace CodecoolApi.Services.Profiles
         public EducationalMaterialReviewProfile()
         {
             CreateMap<CreateUpdateReviewDto, EducationalMaterialReview>();
+            CreateMap<EducationalMaterialReview, ReviewDto>();
+            CreateMap<EducationalMaterialReview, ReviewDtoWithoutMaterial>();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CodecoolApi.Services.Profiles
         public EducationalMaterialProfile()
         {
             CreateMap<CreateUpdateMaterialDto, EducationalMaterial>();
+            CreateMap<EducationalMaterial, MaterialDto>();
         }
     }
 }
