@@ -47,5 +47,13 @@ namespace CodecoolApi.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+        [SwaggerOperation(Summary = "Updates Specific Author")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAuthorAsync(int id, CreateUpdateAuthorDto dto)
+        {
+            await _service.UpdateAsync(id, dto);
+            return NoContent();
+        }
     }
 }

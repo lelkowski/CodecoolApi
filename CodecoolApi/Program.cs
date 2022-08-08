@@ -27,6 +27,7 @@ builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ITypeService, TypeService>();
 builder.Services.AddScoped<ExceptionHandlerMiddleware>();
+builder.Services.AddScoped<LogHandlerMiddleware>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<LogHandlerMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

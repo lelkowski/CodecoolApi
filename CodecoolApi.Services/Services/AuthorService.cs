@@ -40,6 +40,17 @@ namespace CodecoolApi.Services.Services
             _unitOfWork.Authors.Delete(authorToDelete);
             await _unitOfWork.CompleteUnitAsync();
         }
+        public async Task UpdateAsync(int id, CreateUpdateAuthorDto dto)
+        {
+            var author = await _unitOfWork.Authors.GetAsync(id);
+            if (author == null)
+            {
+                throw new ResourceNotFoundException($"Author with id {id} not found");
+            }
+            _mapper.Map(dto, author);
+            _unitOfWork.Authors.Update(author);
+            await _unitOfWork.CompleteUnitAsync();
+        }
 
         public async Task<IEnumerable<AuthorDto>> GetAllAsync()
         {
