@@ -15,17 +15,17 @@ namespace CodecoolApi.Data.DAL
         private CodecoolApiContext _context;
 
         public IAuthorRepository Authors { get; }
-        public IRepository<EducationalMaterial> Materials { get; }
-        public IRepository<EducationalMaterialReview> Reviews { get; }
-        public IRepository<EducationalMaterialType> Types { get; }
+        public IMaterialRepository Materials { get; }
+        public IReviewRepository Reviews { get; }
+        public ITypeRepository Types { get; }
 
         public UnitOfWork(CodecoolApiContext context)
         {
             _context = context;
             Authors = new AuthorRepository(_context);
-            Materials = new Repository<EducationalMaterial>(_context);
-            Reviews = new Repository<EducationalMaterialReview>(_context);
-            Types = new Repository<EducationalMaterialType>(_context);
+            Materials = new MaterialRepository(_context);
+            Reviews = new ReviewRepository(_context);
+            Types = new TypeRepository(_context);
 
         }
 
