@@ -1,4 +1,5 @@
 ﻿using CodecoolApi.Services.Dtos.Author;
+using CodecoolApi.Services.Dtos.EducationalMaterial;
 using CodecoolApi.Services.Dtos.EducationalMaterialType;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace CodecoolApi.Services.Services.Interfaces
         Task<IEnumerable<TypeDto>> GetAllAsync();
         Task<TypeDto> CreateNewAsync(CreateUpdateTypeDto dto);
         Task DeleteAsync(int id);
+        Task<IEnumerable<MaterialDto>> GetMaterialsFromSpecificTypeAsync(int id);
     }
 }

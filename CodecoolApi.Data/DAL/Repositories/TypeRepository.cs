@@ -18,12 +18,12 @@ namespace CodecoolApi.Data.DAL.Repositories
 
         public async Task<IEnumerable<EducationalMaterialType>> GetAllWithNestedDataAsync()
          => await _context.Types
-                .Include(type => type.Materials)
+                .Include(type => type.Materials).ThenInclude(material => material.Author)
                 .ToListAsync();
 
         public async Task<EducationalMaterialType> GetWithNestedDataAsync(int id)
         => await _context.Types
-                .Include(type => type.Materials)
+                .Include(type => type.Materials).ThenInclude(material => material.Author)
                 .FirstOrDefaultAsync(x => x.Id == id);
     }
 }

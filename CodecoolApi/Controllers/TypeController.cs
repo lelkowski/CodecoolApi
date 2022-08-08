@@ -28,6 +28,12 @@ namespace CodecoolApi.Controllers
         public async Task<IActionResult> GetTypeAsync(int id)
             => Ok(await _service.GetAsync(id));
 
+
+        [SwaggerOperation(Summary = "Returns Educational Materials From Specific Type")]
+        [HttpGet("{id}/materials", Name = "GetMaterialsFromSpecificTypeAsync")]
+        public async Task<IActionResult> GetMaterialsFromSpecificTypeAsync(int id)
+            => Ok(await _service.GetMaterialsFromSpecificTypeAsync(id));
+
         [SwaggerOperation(Summary = "Creates New Type")]
         [HttpPost]
         public async Task<IActionResult> CreateNewAsync(CreateUpdateTypeDto dto)

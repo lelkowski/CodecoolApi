@@ -2,6 +2,7 @@
 using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Data.Models;
 using CodecoolApi.Services.Dtos.Author;
+using CodecoolApi.Services.Dtos.EducationalMaterial;
 using CodecoolApi.Services.Dtos.EducationalMaterialReview;
 using CodecoolApi.Services.Dtos.EducationalMaterialType;
 using CodecoolApi.Services.Services.Interfaces;
@@ -54,6 +55,14 @@ namespace CodecoolApi.Services.Services
             if (type is null)
                 throw new Exception($"Type with id {id} not found");
             return _mapper.Map<TypeDto>(type);
+        }
+
+        public async Task<IEnumerable<MaterialDto>> GetMaterialsFromSpecificTypeAsync(int id)
+        {
+            var type = await _unitOfWork.Types.GetWithNestedDataAsync(id);
+            if (type is null)
+                throw new Exception($"Type with id {id} not found");
+            return _mapper.Map<IEnumerable<MaterialDto>>(type.Materials);
         }
     }
 }
