@@ -26,6 +26,7 @@ namespace CodecoolApi.Services.Services
 
         public async Task<ReviewDto> CreateNewAsync(CreateUpdateReviewDto dto)
         {
+            await Validate(dto);
             var newReview = _mapper.Map<EducationalMaterialReview>(dto);
             _unitOfWork.Reviews.Add(newReview);
             await _unitOfWork.CompleteUnitAsync();
@@ -58,6 +59,7 @@ namespace CodecoolApi.Services.Services
 
         public async Task UpdateAsync(int id, CreateUpdateReviewDto dto)
         {
+            await Validate(dto);
             var review = await _unitOfWork.Reviews.GetAsync(id);
             if (review == null)
             {
@@ -66,6 +68,13 @@ namespace CodecoolApi.Services.Services
             _mapper.Map(dto, review);
             _unitOfWork.Reviews.Update(review);
             await _unitOfWork.CompleteUnitAsync();
+        }
+        public async Task Validate(CreateUpdateReviewDto dto)
+        {
+            if (await _unitOfWork.Reviews.GetAsync(dto.EducationalMaterialId) == null)
+            {
+                throw new ResourceNotFoundException($"There is no Educational Material with id {dto.EducationalMaterialId}");
+            }
         }
     }
 }

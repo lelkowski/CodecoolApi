@@ -15,5 +15,6 @@ namespace CodecoolApi.Services.Services.Interfaces
         Task<ReviewDto> CreateNewAsync(CreateUpdateReviewDto dto);
         Task DeleteAsync(int id);
         Task UpdateAsync(int id, CreateUpdateReviewDto dto);
+        Task Validate(CreateUpdateReviewDto dto);
     }
 }

@@ -26,6 +26,7 @@ namespace CodecoolApi.Services.Services
 
         public async Task<MaterialDto> CreateNewAsync(CreateUpdateMaterialDto dto)
         {
+            await Validate(dto);
             var newMaterial = _mapper.Map<EducationalMaterial>(dto);
             newMaterial.DateOfCreation = DateTime.Now;
             _unitOfWork.Materials.Add(newMaterial);
@@ -75,6 +76,7 @@ namespace CodecoolApi.Services.Services
 
         public async Task UpdateAsync(int id, CreateUpdateMaterialDto dto)
         {
+            await Validate(dto);
             var material = await _unitOfWork.Materials.GetAsync(id);
             if (material == null)
             {
@@ -83,6 +85,18 @@ namespace CodecoolApi.Services.Services
             _mapper.Map(dto, material);
             _unitOfWork.Materials.Update(material);
             await _unitOfWork.CompleteUnitAsync();
+        }
+
+        public async Task Validate(CreateUpdateMaterialDto dto)
+        {
+            if(await _unitOfWork.Materials.GetAsync(dto.EducationalMaterialTypeId)==null)
+            {
+                throw new ResourceNotFoundException($"There is no Educational Material Type with id {dto.EducationalMaterialTypeId}");
+            }
+            if(await _unitOfWork.Authors.GetAsync(dto.AuthorId)==null)
+            {
+                throw new ResourceNotFoundException($"There is no Author with id {dto.AuthorId}");
+            }
         }
     }
 }
