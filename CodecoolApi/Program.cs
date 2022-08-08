@@ -23,6 +23,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<ITypeService, TypeService>();
 
 var app = builder.Build();
 
