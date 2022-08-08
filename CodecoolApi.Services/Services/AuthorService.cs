@@ -2,6 +2,7 @@
 using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Data.Models;
 using CodecoolApi.Services.Dtos.Author;
+using CodecoolApi.Services.Exceptions;
 using CodecoolApi.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace CodecoolApi.Services.Services
         {
             var authorToDelete = await _unitOfWork.Authors.GetAsync(id);
             if (authorToDelete is null)
-                throw new Exception($"Actor with id {id} not found");
+                throw new ResourceNotFoundException($"Author with id {id} not found");
 
             _unitOfWork.Authors.Delete(authorToDelete);
             await _unitOfWork.CompleteUnitAsync();
@@ -50,7 +51,7 @@ namespace CodecoolApi.Services.Services
         {
             var author = await _unitOfWork.Authors.GetWithNestedDataAsync(id);
             if (author is null)
-                throw new Exception($"Author with id {id} not found");
+                throw new ResourceNotFoundException($"Author with id {id} not found");
             return _mapper.Map<AuthorDto>(author);
         }
 
@@ -58,7 +59,7 @@ namespace CodecoolApi.Services.Services
         {
             var author = await _unitOfWork.Authors.GetMostProductiveAuthorAsync();
             if (author is null)
-                throw new Exception($"Author not found");
+                throw new ResourceNotFoundException($"Author not found");
             return _mapper.Map<AuthorDto>(author);
         }
     }

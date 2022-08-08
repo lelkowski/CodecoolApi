@@ -3,6 +3,7 @@ using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Data.Models;
 using CodecoolApi.Services.Dtos.Author;
 using CodecoolApi.Services.Dtos.EducationalMaterialReview;
+using CodecoolApi.Services.Exceptions;
 using CodecoolApi.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace CodecoolApi.Services.Services
         {
             var reviewToDelete = await _unitOfWork.Reviews.GetAsync(id);
             if (reviewToDelete is null)
-                throw new Exception($"Review with id {id} not found");
+                throw new ResourceNotFoundException($"Review with id {id} not found");
 
             _unitOfWork.Reviews.Delete(reviewToDelete);
             await _unitOfWork.CompleteUnitAsync();
@@ -51,7 +52,7 @@ namespace CodecoolApi.Services.Services
         {
             var review = await _unitOfWork.Reviews.GetWithNestedDataAsync(id);
             if (review is null)
-                throw new Exception($"Review with id {id} not found");
+                throw new ResourceNotFoundException($"Review with id {id} not found");
             return _mapper.Map<ReviewDto>(review);
         }
 
@@ -60,7 +61,7 @@ namespace CodecoolApi.Services.Services
             var review = await _unitOfWork.Reviews.GetAsync(id);
             if (review == null)
             {
-                throw new Exception();
+                throw new ResourceNotFoundException($"Review with id {id} not found");
             }
             _mapper.Map(dto, review);
             _unitOfWork.Reviews.Update(review);

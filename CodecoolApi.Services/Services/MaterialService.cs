@@ -3,6 +3,7 @@ using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Data.Models;
 using CodecoolApi.Services.Dtos.Author;
 using CodecoolApi.Services.Dtos.EducationalMaterial;
+using CodecoolApi.Services.Exceptions;
 using CodecoolApi.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace CodecoolApi.Services.Services
         {
             var materialToDelete = await _unitOfWork.Materials.GetAsync(id);
             if (materialToDelete is null)
-                throw new Exception($"Material with id {id} not found");
+                throw new ResourceNotFoundException($"Material with id {id} not found");
 
             _unitOfWork.Materials.Delete(materialToDelete);
             await _unitOfWork.CompleteUnitAsync();
@@ -58,8 +59,8 @@ namespace CodecoolApi.Services.Services
         public async Task<IEnumerable<MaterialDto>> GetAllWithNestedDataWithReviewsAboveAverageAsync(int id)
         {
             var materials = await _unitOfWork.Materials.GetAllWithNestedDataAsync();
-            if (id == 0 || _unitOfWork.Authors.GetAsync(id) == null)
-                throw new Exception();
+            if (_unitOfWork.Authors.GetAsync(id) == null)
+                throw new ResourceNotFoundException($"Material with id {id} not found");
             var materialsAboveAverage = materials.Where(material => material.Reviews.Average(review => review.DigitReview) > 5 && material.AuthorId == id);
             return _mapper.Map<IEnumerable<MaterialDto>>(materialsAboveAverage);
         }
@@ -68,7 +69,7 @@ namespace CodecoolApi.Services.Services
         {
             var material = await _unitOfWork.Materials.GetWithNestedDataAsync(id);
             if (material is null)
-                throw new Exception($"Material with id {id} not found");
+                throw new ResourceNotFoundException($"Material with id {id} not found");
             return _mapper.Map<MaterialDto>(material);
         }
 
@@ -77,7 +78,7 @@ namespace CodecoolApi.Services.Services
             var material = await _unitOfWork.Materials.GetAsync(id);
             if (material == null)
             {
-                throw new Exception();
+                throw new ResourceNotFoundException($"Material with id {id} not found");
             }
             _mapper.Map(dto, material);
             _unitOfWork.Materials.Update(material);

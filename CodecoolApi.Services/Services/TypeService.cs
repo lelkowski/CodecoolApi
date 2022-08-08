@@ -5,6 +5,7 @@ using CodecoolApi.Services.Dtos.Author;
 using CodecoolApi.Services.Dtos.EducationalMaterial;
 using CodecoolApi.Services.Dtos.EducationalMaterialReview;
 using CodecoolApi.Services.Dtos.EducationalMaterialType;
+using CodecoolApi.Services.Exceptions;
 using CodecoolApi.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace CodecoolApi.Services.Services
         {
             var typeToDelete = await _unitOfWork.Types.GetAsync(id);
             if (typeToDelete is null)
-                throw new Exception($"Type with id {id} not found");
+                throw new ResourceNotFoundException($"Type with id {id} not found");
 
             _unitOfWork.Types.Delete(typeToDelete);
             await _unitOfWork.CompleteUnitAsync();
@@ -53,7 +54,7 @@ namespace CodecoolApi.Services.Services
         {
             var type = await _unitOfWork.Types.GetWithNestedDataAsync(id);
             if (type is null)
-                throw new Exception($"Type with id {id} not found");
+                throw new ResourceNotFoundException($"Type with id {id} not found");
             return _mapper.Map<TypeDto>(type);
         }
 
@@ -61,7 +62,7 @@ namespace CodecoolApi.Services.Services
         {
             var type = await _unitOfWork.Types.GetWithNestedDataAsync(id);
             if (type is null)
-                throw new Exception($"Type with id {id} not found");
+                throw new ResourceNotFoundException($"Type with id {id} not found");
             return _mapper.Map<IEnumerable<MaterialDto>>(type.Materials);
         }
         public async Task UpdateAsync(int id, CreateUpdateTypeDto dto)
@@ -69,7 +70,7 @@ namespace CodecoolApi.Services.Services
             var type = await _unitOfWork.Types.GetAsync(id);
             if (type == null)
             {
-                throw new Exception();
+                throw new ResourceNotFoundException($"Type with id {id} not found");
             }
             _mapper.Map(dto, type);
             _unitOfWork.Types.Update(type);
