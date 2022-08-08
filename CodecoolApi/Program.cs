@@ -1,6 +1,7 @@
 using CodecoolApi.Data.Context;
 using CodecoolApi.Data.DAL;
 using CodecoolApi.Data.DAL.Interfaces;
+using CodecoolApi.Middlewares;
 using CodecoolApi.Services.Services;
 using CodecoolApi.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ITypeService, TypeService>();
+builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -40,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
