@@ -55,7 +55,7 @@ namespace CodecoolApi.Services.Services
                 Email = existingUser.Email,
                 UserName = existingUser.UserName,
                 Token = jwtToken,
-                TokenExpiration = JWTExpirationTime + "min."
+                TokenExpiration = JWTExpirationTime + " min."
             };
             return response;
         }
@@ -107,84 +107,5 @@ namespace CodecoolApi.Services.Services
             }
             return claims;
         }
-
-        /*
-         * public async Task<IActionResult> Register([FromBody] UserRegistrationDto user)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-                if (existingUser != null)
-                {
-                    return BadRequest("Email already in use");
-                }
-
-                var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
-                var isCreated = await _userManager.CreateAsync(newUser, user.Password);
-                if (isCreated.Succeeded)
-                {
-                    var jwtToken = await GenerateJwtToken(newUser);
-
-                    return Ok(jwtToken);
-                }
-                else
-                {
-                    return BadRequest(isCreated.Errors.Select(x => x.Description).ToList().ToString());
-                }
-            }
-
-            return BadRequest("Invalid payload");
-        }
-
-        /// <response code="400">Invalid login request</response>
-        [HttpPost]
-        [SwaggerOperation(Summary = "Login with Email and Password")]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest user)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-                if (existingUser == null)
-                {
-                    return BadRequest("Invalid login request");
-                }
-
-                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
-
-                if (!isCorrect)
-                {
-                    return BadRequest("Invalid login request");
-                }
-
-                var jwtToken = await GenerateJwtToken(existingUser);
-
-                return Ok(jwtToken);
-            }
-
-            return BadRequest("Invalid payload");
-        }
-
-        private async Task<IActionResult> GenerateJwtToken(IdentityUser user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
-            var claims = await GetValidClaims(user);
-
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.UtcNow.AddMinutes(JWTExpirationTime),
-                signingCredentials: signIn);
-
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-        }
-         */
     }
 }
