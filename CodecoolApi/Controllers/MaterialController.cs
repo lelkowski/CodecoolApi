@@ -1,11 +1,15 @@
 ﻿using CodecoolApi.Services.Dtos.EducationalMaterial;
 using CodecoolApi.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodecoolApi.Controllers
 {
+    /// <response code="401">Unauthenticated user can't use this endpoint</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MaterialController : ControllerBase
@@ -38,8 +42,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of material</param>
         /// <response code="204">Updated selected material</response>
+        /// <response code="403">Can't update material without permission</response>
         /// <response code="404">Selected material was not found</response>
         [SwaggerOperation(Summary = "Updates Specific Material")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMaterialAsync(int id, CreateUpdateMaterialDto dto)
         {
@@ -56,8 +62,10 @@ namespace CodecoolApi.Controllers
             => Ok(await _service.GetAllWithNestedDataWithReviewsAboveAverageAsync(id));
 
         /// <response code="201">Created new material</response>
+        /// <response code="403">Can't create material without permission</response>
         /// <response code="404">Can't create material, no author or type with those Ids</response>
         [SwaggerOperation(Summary = "Creates New Material")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateNewAsync(CreateUpdateMaterialDto dto)
         {
@@ -67,8 +75,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of material</param>
         /// <response code="204">Deleted selected material</response>
+        /// <response code="403">Can't delete material without permission</response>
         /// <response code="404">Selected material was not found</response>
         [SwaggerOperation(Summary = "Delete Specific Material")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

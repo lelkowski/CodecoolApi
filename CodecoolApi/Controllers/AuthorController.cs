@@ -1,11 +1,15 @@
 ﻿using CodecoolApi.Services.Dtos.Author;
 using CodecoolApi.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodecoolApi.Controllers
 {
+    /// <response code="401">Unauthenticated user can't use this endpoint</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorController : ControllerBase
@@ -40,7 +44,9 @@ namespace CodecoolApi.Controllers
 
 
         /// <response code="201">Created author</response>
+        /// <response code="403">Can't create author without permission</response>
         [SwaggerOperation(Summary = "Creates New Author")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateNewAsync(CreateUpdateAuthorDto dto)
         {
@@ -50,8 +56,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of author</param>
         /// <response code="204">Deleted selected author</response>
+        /// <response code="403">Can't delete author without permission</response>
         /// <response code="404">Selected author was not found</response>
         [SwaggerOperation(Summary = "Delete Specific Author")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -61,8 +69,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of author</param>
         /// <response code="204">Updated selected author</response>
+        /// <response code="403">Can't update author without permission</response>
         /// <response code="404">Selected author was not found</response>
         [SwaggerOperation(Summary = "Updates Specific Author")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAuthorAsync(int id, CreateUpdateAuthorDto dto)
         {

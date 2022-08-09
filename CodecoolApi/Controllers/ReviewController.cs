@@ -1,12 +1,16 @@
 ﻿using CodecoolApi.Services.Dtos.EducationalMaterial;
 using CodecoolApi.Services.Dtos.EducationalMaterialReview;
 using CodecoolApi.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodecoolApi.Controllers
 {
+    /// <response code="401">Unauthenticated user can't use this endpoint</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ReviewController : ControllerBase
@@ -43,8 +47,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of review</param>
         /// <response code="204">Deleted selected review</response>
+        /// <response code="403">Can't delete review without permission</response>
         /// <response code="404">Selected review was not found</response>
         [SwaggerOperation(Summary = "Delete Specific Review")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

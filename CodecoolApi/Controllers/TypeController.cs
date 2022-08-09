@@ -2,12 +2,16 @@
 using CodecoolApi.Services.Dtos.EducationalMaterialReview;
 using CodecoolApi.Services.Dtos.EducationalMaterialType;
 using CodecoolApi.Services.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodecoolApi.Controllers
 {
+    /// <response code="401">Unauthenticated user can't use this endpoint</response>
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class TypeController : ControllerBase
@@ -39,8 +43,10 @@ namespace CodecoolApi.Controllers
         public async Task<IActionResult> GetMaterialsFromSpecificTypeAsync(int id)
             => Ok(await _service.GetMaterialsFromSpecificTypeAsync(id));
 
-        /// <response code="201">Created review</response>
+        /// <response code="201">Created type</response>
+        /// <response code="403">Can't create type without permission</response>
         [SwaggerOperation(Summary = "Creates New Type")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CreateNewAsync(CreateUpdateTypeDto dto)
         {
@@ -49,9 +55,11 @@ namespace CodecoolApi.Controllers
         }
 
         /// <param name="id">Id of review</param>
-        /// <response code="204">Deleted selected review</response>
+        /// <response code="204">Deleted selected type</response>
+        /// <response code="403">Can't delete type without permission</response>
         /// <response code="404">Selected review was not found</response>
         [SwaggerOperation(Summary = "Delete Specific Type")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -61,8 +69,10 @@ namespace CodecoolApi.Controllers
 
         /// <param name="id">Id of review</param>
         /// <response code="204">Updated selected type</response>
+        /// <response code="403">Can't update type without permission</response>
         /// <response code="404">Selected type was not found</response>
         [SwaggerOperation(Summary = "Updates Specific Type")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReviewAsync(int id, CreateUpdateTypeDto dto)
         {
