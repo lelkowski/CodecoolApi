@@ -1,15 +1,7 @@
-using CodecoolApi.Data.Context;
-using CodecoolApi.Data.DAL;
-using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Identity.Context;
 using CodecoolApi.Middlewares;
 using CodecoolApi.Services.Services;
-using CodecoolApi.Services.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 

@@ -1,15 +1,4 @@
-﻿using AutoMapper;
-using CodecoolApi.Data.DAL.Interfaces;
-using CodecoolApi.Data.Models;
-using CodecoolApi.Services.Dtos.Author;
-using CodecoolApi.Services.Exceptions;
-using CodecoolApi.Services.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using CodecoolApi.Services.Exceptions;
 namespace CodecoolApi.Services.Services
 {
     public class AuthorService : IAuthorService

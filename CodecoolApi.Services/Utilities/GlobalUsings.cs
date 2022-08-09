@@ -1,0 +1,14 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Text;
+global using CodecoolApi.Services.Services.Interfaces;
+global using CodecoolApi.Services.Dtos.Author;
+global using CodecoolApi.Services.Dtos.EducationalMaterial;
+global using CodecoolApi.Services.Dtos.EducationalMaterialReview;
+global using CodecoolApi.Services.Dtos.EducationalMaterialType;
+global using CodecoolApi.Data.Context;
+global using CodecoolApi.Data.DAL;
+global using CodecoolApi.Data.DAL.Interfaces;
+global using System.ComponentModel.DataAnnotations;
+global using CodecoolApi.Data.Models;
+global using AutoMapper;

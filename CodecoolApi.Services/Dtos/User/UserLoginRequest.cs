@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CodecoolApi.Services.Dtos.User
+﻿namespace CodecoolApi.Services.Dtos.User
 {
    public class UserLoginRequest
    {

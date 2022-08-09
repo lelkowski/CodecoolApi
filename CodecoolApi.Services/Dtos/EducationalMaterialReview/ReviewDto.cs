@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodecoolApi.Services.Dtos.EducationalMaterialReview
+﻿namespace CodecoolApi.Services.Dtos.EducationalMaterialReview
 {
     public class ReviewDto
     {

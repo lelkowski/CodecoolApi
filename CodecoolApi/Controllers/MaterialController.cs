@@ -1,12 +1,4 @@
-﻿using CodecoolApi.Services.Dtos.EducationalMaterial;
-using CodecoolApi.Services.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-
-namespace CodecoolApi.Controllers
+﻿namespace CodecoolApi.Controllers
 {
     /// <response code="401">Unauthenticated user can't use this endpoint</response>
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

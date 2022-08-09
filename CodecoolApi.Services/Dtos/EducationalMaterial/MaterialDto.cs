@@ -1,11 +1,4 @@
-﻿using CodecoolApi.Services.Dtos.EducationalMaterialReview;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodecoolApi.Services.Dtos.EducationalMaterial
+﻿namespace CodecoolApi.Services.Dtos.EducationalMaterial
 {
     public class MaterialDto
     {

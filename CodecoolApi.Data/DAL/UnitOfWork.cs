@@ -1,12 +1,6 @@
 ﻿using CodecoolApi.Data.Context;
 using CodecoolApi.Data.DAL.Interfaces;
 using CodecoolApi.Data.DAL.Repositories;
-using CodecoolApi.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodecoolApi.Data.DAL
 {

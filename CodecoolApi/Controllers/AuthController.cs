@@ -1,14 +1,7 @@
 ﻿using CodecoolApi.Identity.Context;
-using CodecoolApi.Services.Dtos.User;
-using CodecoolApi.Services.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace CodecoolApi.Controllers
 {

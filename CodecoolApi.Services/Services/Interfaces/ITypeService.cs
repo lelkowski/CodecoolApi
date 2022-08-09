@@ -1,13 +1,4 @@
-﻿using CodecoolApi.Services.Dtos.Author;
-using CodecoolApi.Services.Dtos.EducationalMaterial;
-using CodecoolApi.Services.Dtos.EducationalMaterialType;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodecoolApi.Services.Services.Interfaces
+﻿namespace CodecoolApi.Services.Services.Interfaces
 {
     public interface ITypeService
     {
