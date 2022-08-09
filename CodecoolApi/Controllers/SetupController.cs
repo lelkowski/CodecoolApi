@@ -1,8 +1,4 @@
-﻿using CodecoolApi.Identity.Context;
-using CodecoolApi.Services.Services;
-using Microsoft.AspNetCore.Identity;
-
-namespace CodecoolApi.Controllers
+﻿namespace CodecoolApi.Controllers
 {
     /// <response code="401">Unauthenticated user can't use this endpoint</response>
     [Route("api/[controller]")]

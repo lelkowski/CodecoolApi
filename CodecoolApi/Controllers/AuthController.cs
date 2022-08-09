@@ -1,9 +1,4 @@
-﻿using CodecoolApi.Identity.Context;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-namespace CodecoolApi.Controllers
+﻿namespace CodecoolApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
