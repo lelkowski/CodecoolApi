@@ -32,7 +32,7 @@ namespace CodecoolApi.Services.Services
                 throw new ResourceNotFoundException($"Material with id {id} not found");
             _unitOfWork.Materials.Delete(materialToDelete);
             var author = await _unitOfWork.Authors.GetAsync(materialToDelete.AuthorId);
-            author.Counter-;
+            author.Counter--;
             _unitOfWork.Authors.Update(author);
             await _unitOfWork.CompleteUnitAsync();
         }
