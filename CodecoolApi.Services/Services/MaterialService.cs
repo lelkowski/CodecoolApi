@@ -18,6 +18,9 @@ namespace CodecoolApi.Services.Services
             var newMaterial = _mapper.Map<EducationalMaterial>(dto);
             newMaterial.DateOfCreation = DateTime.Now;
             _unitOfWork.Materials.Add(newMaterial);
+            var author = await _unitOfWork.Authors.GetAsync(newMaterial.AuthorId);
+            author.Counter++;
+            _unitOfWork.Authors.Update(author);
             await _unitOfWork.CompleteUnitAsync();
             return _mapper.Map<MaterialDto>(newMaterial);
         }
@@ -27,8 +30,10 @@ namespace CodecoolApi.Services.Services
             var materialToDelete = await _unitOfWork.Materials.GetAsync(id);
             if (materialToDelete is null)
                 throw new ResourceNotFoundException($"Material with id {id} not found");
-
             _unitOfWork.Materials.Delete(materialToDelete);
+            var author = await _unitOfWork.Authors.GetAsync(materialToDelete.AuthorId);
+            author.Counter-;
+            _unitOfWork.Authors.Update(author);
             await _unitOfWork.CompleteUnitAsync();
         }
 
