@@ -21,7 +21,6 @@ builder.Services.AddDbContext<CodecoolApiIdentityContext>(options => options.Use
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();

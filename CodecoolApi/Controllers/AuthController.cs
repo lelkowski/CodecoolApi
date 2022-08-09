@@ -9,14 +9,12 @@ namespace CodecoolApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _service;
         private readonly IConfiguration _configuration;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(IConfiguration configuration, IAuthService authService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, CodecoolApiIdentityContext context)
+        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, CodecoolApiIdentityContext context)
         {
-            _service = authService;
             _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
