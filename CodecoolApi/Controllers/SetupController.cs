@@ -11,13 +11,9 @@ namespace CodecoolApi.Controllers
     public class SetupController : ControllerBase
     {
         private readonly ISetupService _service;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public SetupController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ISetupService service)
+        public SetupController(ISetupService service)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
             _service = service;
         }
 
@@ -55,23 +51,8 @@ namespace CodecoolApi.Controllers
         [Route("AddUserToRole")]
         public async Task<IActionResult> AddUserToRole(string email, string roleName)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user != null)
-            {
-                var result = await _userManager.AddToRoleAsync(user, roleName);
-
-                if (result.Succeeded)
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    return BadRequest(new { error = $"Error: Unable to add user {user.Email} to the {roleName} role" });
-                }
-            }
-
-            return BadRequest(new { error = "Unable to find user" });
+            await _service.AddUserToRole(email, roleName);
+            return NoContent();
         }
 
         /// <response code="200">Created new Admin</response>
@@ -83,17 +64,8 @@ namespace CodecoolApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-                if (existingUser != null)
-                {
-                    return BadRequest("Email already in use");
-                }
-
-                var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
-                await _userManager.CreateAsync(newUser, user.Password);
-                await _userManager.AddToRoleAsync(newUser, "admin");
-                return Ok("Created new admin");
+                await _service.AddNewAdmin(user);
+                return Ok("Added New Admin");
             }
             return BadRequest("Invalid payload");
         }
@@ -104,9 +76,7 @@ namespace CodecoolApi.Controllers
         [Route("GetUserRoles")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            var roles = await _userManager.GetRolesAsync(user);
-            return Ok(roles);
+            return Ok(await _service.GetUserRoles(email));
         }
 
         /// <response code="204">Removed user from role</response>
@@ -116,23 +86,8 @@ namespace CodecoolApi.Controllers
         [Route("RemoveUserFromRole")]
         public async Task<IActionResult> RemoveUserFromRole(string email, string roleName)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user != null)
-            {
-                var result = await _userManager.RemoveFromRoleAsync(user, roleName);
-
-                if (result.Succeeded)
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    return BadRequest(new { error = $"Error: Unable to removed user {user.Email} from the {roleName} role" });
-                }
-            }
-
-            return BadRequest(new { error = "Unable to find user" });
+            await _service.RemoveUserFromRole(email, roleName);
+            return NoContent();
         }
     }
 }

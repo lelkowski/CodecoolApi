@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CodecoolApi.Services.Dtos.User;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,58 @@ namespace CodecoolApi.Services.Services
         {
             var users = await _userManager.Users.ToListAsync();
             return users;
+        }
+        public async Task AddUserToRole(string email, string roleName)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                throw new Exception("Role with that name doesn't exist");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, roleName);
+            }
+            else
+            {
+                throw new Exception("User with that email doesn't exist");
+            }
+        }
+        public async Task AddNewAdmin(UserRegistrationDto user)
+        {
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+            if (existingUser != null)
+            {
+                throw new Exception("Email already in use!");
+            }
+
+            var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
+            await _userManager.CreateAsync(newUser, user.Password);
+            await _userManager.AddToRoleAsync(newUser, "admin");
+        }
+        public async Task<List<string>> GetUserRoles(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(user);
+            return (List<string>)roles;
+        }
+        public async Task RemoveUserFromRole(string email, string roleName)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                throw new Exception("Role with that name doesn't exist");
+            }
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, roleName);
+            }
+            else throw new Exception("No user with that email");
         }
     }
 }
