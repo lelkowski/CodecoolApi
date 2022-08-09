@@ -9,8 +9,8 @@ namespace CodeCoolApi.Extensions
     {
       public static void AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
       {
-         services.AddDbContext<CodecoolApiContext>(options => options.UseSqlServer(configuration.GetConnectionString("CodecoolApiDb")));
-         services.AddDbContext<CodecoolApiIdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("CodecoolApiIdentityDb")));
+            services.AddDbContext<CodecoolApiContext>(options => options.UseSqlServer(configuration["ConnectionStrings:Api"]));
+            services.AddDbContext<CodecoolApiIdentityContext>(options => options.UseSqlServer(configuration["ConnectionStrings:Identity"]));
       }
        
         public static void AddCustomServices(this IServiceCollection services)
