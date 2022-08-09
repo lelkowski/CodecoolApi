@@ -1,4 +1,5 @@
 ﻿using CodecoolApi.Identity.Context;
+using CodecoolApi.Services.Dtos.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -90,6 +91,29 @@ namespace CodecoolApi.Controllers
 
             // User doesn't exist
             return BadRequest(new { error = "Unable to find user" });
+        }
+
+        // Add new admin
+        [HttpPost]
+        [SwaggerOperation(Summary = "Add New Admin")]
+        [Route("AddNewAdmin")]
+        public async Task<IActionResult> AddNewAdmin([FromBody] UserRegistrationDto user)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _userManager.FindByEmailAsync(user.Email);
+
+                if (existingUser != null)
+                {
+                    return BadRequest("Email already in use");
+                }
+
+                var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
+                await _userManager.CreateAsync(newUser, user.Password);
+                await _userManager.AddToRoleAsync(newUser, "admin");
+                return Ok("Created new admin");
+            }
+            return BadRequest("Invalid payload");
         }
 
         // Get specific user role
