@@ -21,6 +21,7 @@ namespace CodecoolApi.Controllers
             _roleManager = roleManager;
         }
 
+        /// <response code="400">Invalid register request</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Register New User")]
         [Route("Register")]
@@ -52,6 +53,7 @@ namespace CodecoolApi.Controllers
             return BadRequest("Invalid payload");
         }
 
+        /// <response code="400">Invalid login request</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Login with Email and Password")]
         [Route("Login")]

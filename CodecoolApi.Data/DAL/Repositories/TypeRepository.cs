@@ -24,6 +24,7 @@ namespace CodecoolApi.Data.DAL.Repositories
         public async Task<EducationalMaterialType> GetWithNestedDataAsync(int id)
         => await _context.Types
                 .Include(type => type.Materials).ThenInclude(material => material.Author)
+                .Include(type => type.Materials).ThenInclude(material => material.Reviews)
                 .FirstOrDefaultAsync(x => x.Id == id);
     }
 }
