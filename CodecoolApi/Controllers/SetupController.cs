@@ -1,4 +1,5 @@
 ﻿using CodecoolApi.Identity.Context;
+using CodecoolApi.Services.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace CodecoolApi.Controllers
@@ -9,24 +10,23 @@ namespace CodecoolApi.Controllers
     [ApiController]
     public class SetupController : ControllerBase
     {
-        private readonly CodecoolApiIdentityContext _context;
+        private readonly ISetupService _service;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public SetupController(CodecoolApiIdentityContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public SetupController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ISetupService service)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _context = context;
+            _service = service;
         }
 
         /// <response code="200">Returned all roles</response>
         [HttpGet]
         [SwaggerOperation(Summary = "Gets All Roles")]
-        public IActionResult GetAllRoles()
+        public async Task<IActionResult> GetAllRoles()
         {
-            var roles = _roleManager.Roles.ToList();
-            return Ok(roles);
+            return Ok(await _service.GetAllRoles());
         }
 
         /// <response code="200">Created new role</response>
@@ -35,22 +35,8 @@ namespace CodecoolApi.Controllers
         [SwaggerOperation(Summary = "Creates New Role")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
-            var roleExist = await _roleManager.RoleExistsAsync(roleName);
-            if (!roleExist)
-            {
-                var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
-
-                if (roleResult.Succeeded)
-                {
-                    return Ok(new { result = $"Role {roleName} added successfully" });
-                }
-                else
-                {
-                    return BadRequest(new { error = $"Issue adding the new {roleName} role" });
-                }
-            }
-
-            return BadRequest(new { error = "Role already exist" });
+            await _service.CreateRole(roleName);
+            return Ok($"Created new role: {roleName}");
         }
 
         /// <response code="200">Returned all users</response>
@@ -59,8 +45,7 @@ namespace CodecoolApi.Controllers
         [Route("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
-            return Ok(users);
+            return Ok(await _service.GetAllUser());
         }
 
         /// <response code="204">Added user to role</response>

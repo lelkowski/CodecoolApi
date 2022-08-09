@@ -17,6 +17,7 @@ namespace CodeCoolApi.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ISetupService, SetupService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IMaterialService, MaterialService>();
             services.AddScoped<IReviewService, ReviewService>();
