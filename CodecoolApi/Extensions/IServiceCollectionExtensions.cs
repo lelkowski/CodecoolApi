@@ -16,6 +16,7 @@ namespace CodeCoolApi.Extensions
         public static void AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IMaterialService, MaterialService>();
             services.AddScoped<IReviewService, ReviewService>();
