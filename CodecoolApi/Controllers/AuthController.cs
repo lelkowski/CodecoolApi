@@ -12,8 +12,9 @@ namespace CodecoolApi.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private int JWTExpirationTime = 10; //in minutes
 
-        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, CodecoolApiIdentityContext context)
+        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _configuration = configuration;
             _userManager = userManager;
@@ -93,7 +94,7 @@ namespace CodecoolApi.Controllers
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddMinutes(JWTExpirationTime),
                 signingCredentials: signIn);
 
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
