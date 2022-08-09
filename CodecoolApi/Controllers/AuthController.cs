@@ -10,15 +10,9 @@ namespace CodecoolApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _service;
-        private readonly IConfiguration _configuration;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IAuthService service)
+        public AuthController(IAuthService service)
         {
-            _configuration = configuration;
-            _userManager = userManager;
-            _roleManager = roleManager;
             _service = service;
         }
 
@@ -31,7 +25,7 @@ namespace CodecoolApi.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Register(user);
-                return Ok("Registered new user");
+                return Ok($"Registered new user with email: {user.Email}");
             }
             return BadRequest("Invalid payload");
         }
@@ -41,7 +35,7 @@ namespace CodecoolApi.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Login with Email and Password")]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest user)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequestDto user)
         {
             if (ModelState.IsValid)
             {

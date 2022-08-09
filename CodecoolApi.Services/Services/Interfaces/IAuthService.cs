@@ -4,7 +4,7 @@ namespace CodecoolApi.Services.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<AuthenticationResponse> Login(UserLoginRequest user);
+        Task<AuthenticationResponseDto> Login(UserLoginRequestDto user);
         Task Register(UserRegistrationDto user);
     }
 }

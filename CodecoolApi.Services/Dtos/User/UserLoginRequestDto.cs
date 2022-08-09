@@ -1,6 +1,6 @@
 ﻿namespace CodecoolApi.Services.Dtos.User
 {
-   public class UserLoginRequest
+   public class UserLoginRequestDto
    {
       [Required]
       [EmailAddress]

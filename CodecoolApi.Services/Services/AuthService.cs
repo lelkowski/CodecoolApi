@@ -33,7 +33,7 @@ namespace CodecoolApi.Services.Services
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
             await _userManager.CreateAsync(newUser, user.Password);
         }
-        public async Task<AuthenticationResponse> Login(UserLoginRequest user)
+        public async Task<AuthenticationResponseDto> Login(UserLoginRequestDto user)
         {
             var existingUser = await _userManager.FindByEmailAsync(user.Email);
 
@@ -50,12 +50,12 @@ namespace CodecoolApi.Services.Services
             }
 
             var jwtToken = await GenerateJwtToken(existingUser);
-            AuthenticationResponse response = new()
+            AuthenticationResponseDto response = new()
             {
-                Id = existingUser.Id,
                 Email = existingUser.Email,
                 UserName = existingUser.UserName,
-                Token = jwtToken
+                Token = jwtToken,
+                TokenExpiration = JWTExpirationTime + "min."
             };
             return response;
         }
