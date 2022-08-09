@@ -1,10 +1,7 @@
 using CodecoolApi.Identity.Context;
 using CodecoolApi.Middlewares;
-using CodecoolApi.Services.Services;
 using CodeCoolApi.Extensions;
 using Microsoft.AspNetCore.Identity;
-using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
