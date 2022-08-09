@@ -27,7 +27,7 @@ namespace CodecoolApi.Services.Services
 
             if (existingUser != null)
             {
-                throw new Exception("User with that e-mail already exists");
+                throw new ResourceAlreadyExistsException("User with that e-mail already exists");
             }
 
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
@@ -39,14 +39,14 @@ namespace CodecoolApi.Services.Services
 
             if (existingUser == null)
             {
-                throw new Exception("User with that email doesn't exist");
+                throw new InvalidCredentialsException("User with that email doesn't exist");
             }
 
             var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
 
             if (!isCorrect)
             {
-                throw new Exception("Password and email doesn't match themselves");
+                throw new InvalidCredentialsException("Password and email doesn't match themselves");
             }
 
             var jwtToken = await GenerateJwtToken(existingUser);

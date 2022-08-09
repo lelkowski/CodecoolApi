@@ -15,7 +15,18 @@ namespace CodecoolApi.Middlewares
             try { await next.Invoke(context); }
             catch (ResourceNotFoundException resourceNotFoundException)
             {
+                _logger.LogInformation($"({DateTime.Now}) ResourceNotFoundException: {context.Request.Method}: {context.Request.Scheme}://{context.Request.Host}{context.Request.Path}\n\t{resourceNotFoundException.Message}");
                 await HandleExceptionAsync(context, resourceNotFoundException, HttpStatusCode.NotFound).ConfigureAwait(false);
+            }
+            catch (InvalidCredentialsException invalidCretendialsException)
+            {
+                _logger.LogInformation($"({DateTime.Now}) InvalidCredentialsException: {context.Request.Method}: {context.Request.Scheme}://{context.Request.Host}{context.Request.Path}\n\t{invalidCretendialsException.Message}");
+                await HandleExceptionAsync(context, invalidCretendialsException, HttpStatusCode.Forbidden).ConfigureAwait(false);
+            }
+            catch (ResourceAlreadyExistsException resourceAlreadyExistsException)
+            {
+                _logger.LogInformation($"({DateTime.Now}) ResourceAlreadyExistsException: {context.Request.Method}: {context.Request.Scheme}://{context.Request.Host}{context.Request.Path}\n\t{resourceAlreadyExistsException.Message}");
+                await HandleExceptionAsync(context, resourceAlreadyExistsException, HttpStatusCode.Conflict).ConfigureAwait(false);
             }
             catch (Exception exception)
             {

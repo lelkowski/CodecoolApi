@@ -1,4 +1,5 @@
 ﻿using CodecoolApi.Services.Dtos.User;
+using CodecoolApi.Services.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace CodecoolApi.Services.Services
             {
                 await _roleManager.CreateAsync(new IdentityRole(roleName));
             }
-            throw new Exception("Role with that name already exists");
+            throw new ResourceAlreadyExistsException("Role with that name already exists");
         }
         public async Task<List<IdentityUser>> GetAllUser()
         {
@@ -41,7 +42,7 @@ namespace CodecoolApi.Services.Services
             var roleExist = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                throw new Exception("Role with that name doesn't exist");
+                throw new ResourceNotFoundException("Role with that name doesn't exist");
             }
 
             var user = await _userManager.FindByEmailAsync(email);
@@ -51,7 +52,7 @@ namespace CodecoolApi.Services.Services
             }
             else
             {
-                throw new Exception("User with that email doesn't exist");
+                throw new ResourceNotFoundException("User with that email doesn't exist");
             }
         }
         public async Task AddNewAdmin(UserRegistrationDto user)
@@ -60,7 +61,7 @@ namespace CodecoolApi.Services.Services
 
             if (existingUser != null)
             {
-                throw new Exception("Email already in use!");
+                throw new ResourceAlreadyExistsException("Email already in use!");
             }
 
             var newUser = new IdentityUser() { Email = user.Email, UserName = user.Username };
@@ -78,7 +79,7 @@ namespace CodecoolApi.Services.Services
             var roleExist = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                throw new Exception("Role with that name doesn't exist");
+                throw new ResourceNotFoundException("Role with that name doesn't exist");
             }
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -86,7 +87,7 @@ namespace CodecoolApi.Services.Services
             {
                 await _userManager.RemoveFromRoleAsync(user, roleName);
             }
-            else throw new Exception("No user with that email");
+            else throw new ResourceNotFoundException("User with that email doesn't exist");
         }
     }
 }

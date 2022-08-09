@@ -27,6 +27,7 @@ namespace CodecoolApi.Controllers
 
         /// <response code="200">Created new role</response>
         /// <response code="400">Can't create new role</response>
+        /// <response code="409">Role with that name already exists</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Creates New Role")]
         public async Task<IActionResult> CreateRole(string roleName)
@@ -46,6 +47,7 @@ namespace CodecoolApi.Controllers
 
         /// <response code="204">Added user to role</response>
         /// <response code="400">Can't add role to user</response>
+        /// <response code="404">Role or user doesn't exist</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Add User To Role")]
         [Route("AddUserToRole")]
@@ -57,6 +59,7 @@ namespace CodecoolApi.Controllers
 
         /// <response code="200">Created new Admin</response>
         /// <response code="400">Invalid values in required properties</response>
+        /// <response code="409">Admin with those credentials exists</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Add New Admin")]
         [Route("AddNewAdmin")]
@@ -71,6 +74,7 @@ namespace CodecoolApi.Controllers
         }
 
         /// <response code="200">Returned roles of specific user</response>
+        /// <response code="404">Selected user doesn't exist</response>
         [HttpGet]
         [SwaggerOperation(Summary = "Gets Roles Of Specific User")]
         [Route("GetUserRoles")]
@@ -81,6 +85,7 @@ namespace CodecoolApi.Controllers
 
         /// <response code="204">Removed user from role</response>
         /// <response code="400">Can't remove role from user</response>
+        /// <response code="404">Role or user doesn't exist</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Remove User From Role")]
         [Route("RemoveUserFromRole")]
