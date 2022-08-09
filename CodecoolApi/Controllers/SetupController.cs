@@ -86,7 +86,7 @@ namespace CodecoolApi.Controllers
         /// <response code="204">Removed user from role</response>
         /// <response code="400">Can't remove role from user</response>
         /// <response code="404">Role or user doesn't exist</response>
-        [HttpPost]
+        [HttpDelete]
         [SwaggerOperation(Summary = "Remove User From Role")]
         [Route("RemoveUserFromRole")]
         public async Task<IActionResult> RemoveUserFromRole(string email, string roleName)
