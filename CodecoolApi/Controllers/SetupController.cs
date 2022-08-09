@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodecoolApi.Controllers
 {
+    /// <response code="401">Unauthenticated user can't use this endpoint</response>
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
     [ApiController]
@@ -26,6 +27,7 @@ namespace CodecoolApi.Controllers
             _context = context;
         }
 
+        /// <response code="200">Returned all roles</response>
         [HttpGet]
         [SwaggerOperation(Summary = "Gets All Roles")]
         public IActionResult GetAllRoles()
@@ -34,6 +36,8 @@ namespace CodecoolApi.Controllers
             return Ok(roles);
         }
 
+        /// <response code="200">Created new role</response>
+        /// <response code="400">Can't create new role</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Creates New Role")]
         public async Task<IActionResult> CreateRole(string roleName)
@@ -41,7 +45,6 @@ namespace CodecoolApi.Controllers
             var roleExist = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                //create the roles and seed them to the database: Question 1
                 var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
 
                 if (roleResult.Succeeded)
@@ -57,7 +60,7 @@ namespace CodecoolApi.Controllers
             return BadRequest(new { error = "Role already exist" });
         }
 
-        // Get all users
+        /// <response code="200">Returned all users</response>
         [HttpGet]
         [SwaggerOperation(Summary = "Gets All Users")]
         [Route("GetAllUsers")]
@@ -67,7 +70,8 @@ namespace CodecoolApi.Controllers
             return Ok(users);
         }
 
-        // Add User to role
+        /// <response code="204">Added user to role</response>
+        /// <response code="400">Can't add role to user</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Add User To Role")]
         [Route("AddUserToRole")]
@@ -81,7 +85,7 @@ namespace CodecoolApi.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Ok(new { result = $"User {user.Email} added to the {roleName} role" });
+                    return NoContent();
                 }
                 else
                 {
@@ -89,11 +93,11 @@ namespace CodecoolApi.Controllers
                 }
             }
 
-            // User doesn't exist
             return BadRequest(new { error = "Unable to find user" });
         }
 
-        // Add new admin
+        /// <response code="200">Created new Admin</response>
+        /// <response code="400">Invalid values in required properties</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Add New Admin")]
         [Route("AddNewAdmin")]
@@ -116,20 +120,19 @@ namespace CodecoolApi.Controllers
             return BadRequest("Invalid payload");
         }
 
-        // Get specific user role
+        /// <response code="200">Returned roles of specific user</response>
         [HttpGet]
         [SwaggerOperation(Summary = "Gets Roles Of Specific User")]
         [Route("GetUserRoles")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
-            // Resolve the user via their email
             var user = await _userManager.FindByEmailAsync(email);
-            // Get the roles for the user
             var roles = await _userManager.GetRolesAsync(user);
             return Ok(roles);
         }
 
-        // Remove User to role
+        /// <response code="204">Removed user from role</response>
+        /// <response code="400">Can't remove role from user</response>
         [HttpPost]
         [SwaggerOperation(Summary = "Remove User From Role")]
         [Route("RemoveUserFromRole")]
@@ -143,7 +146,7 @@ namespace CodecoolApi.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Ok(new { result = $"User {user.Email} removed from the {roleName} role" });
+                    return NoContent();
                 }
                 else
                 {
@@ -151,7 +154,6 @@ namespace CodecoolApi.Controllers
                 }
             }
 
-            // User doesn't exist
             return BadRequest(new { error = "Unable to find user" });
         }
     }
