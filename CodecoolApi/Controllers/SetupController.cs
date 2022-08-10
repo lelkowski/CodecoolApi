@@ -90,5 +90,17 @@
             await _service.RemoveUserFromRole(email, roleName);
             return NoContent();
         }
+
+        /// <response code="204">Removed user</response>
+        /// <response code="400">Can't remove user</response>
+        /// <response code="404">User doesn't exist</response>
+        [HttpDelete]
+        [SwaggerOperation(Summary = "Remove User")]
+        [Route("RemoveUser")]
+        public async Task<IActionResult> RemoveUser(string email)
+        {
+            await _service.RemoveUser(email);
+            return NoContent();
+        }
     }
 }

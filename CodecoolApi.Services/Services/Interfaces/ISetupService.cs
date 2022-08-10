@@ -12,5 +12,7 @@ namespace CodecoolApi.Services.Services.Interfaces
         Task AddNewAdmin(UserRegistrationDto user);
         Task<List<string>> GetUserRoles(string email);
         Task RemoveUserFromRole(string email, string roleName);
+
+        Task RemoveUser(string email);
     }
 }

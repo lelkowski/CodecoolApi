@@ -89,5 +89,18 @@ namespace CodecoolApi.Services.Services
             }
             else throw new ResourceNotFoundException("User with that email doesn't exist");
         }
+
+        public async Task RemoveUser(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, (IEnumerable<string>)roles);
+                await _userManager.DeleteAsync(user);
+            }
+            else throw new ResourceNotFoundException("User with that email doesn't exist");
+        }
     }
 }
