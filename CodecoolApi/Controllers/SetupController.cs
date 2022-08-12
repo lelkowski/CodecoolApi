@@ -14,8 +14,8 @@
         }
 
         /// <response code="200">Returned all roles</response>
-        [HttpGet]
         [SwaggerOperation(Summary = "Gets All Roles")]
+        [HttpGet("roles")]
         public async Task<IActionResult> GetAllRoles()
         {
             return Ok(await _service.GetAllRoles());
@@ -33,9 +33,8 @@
         }
 
         /// <response code="200">Returned all users</response>
-        [HttpGet]
         [SwaggerOperation(Summary = "Gets All Users")]
-        [Route("GetAllUsers")]
+        [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()
         {
             return Ok(await _service.GetAllUser());
@@ -44,9 +43,8 @@
         /// <response code="204">Added user to role</response>
         /// <response code="400">Can't add role to user</response>
         /// <response code="404">Role or user doesn't exist</response>
-        [HttpPost]
         [SwaggerOperation(Summary = "Add User To Role")]
-        [Route("AddUserToRole")]
+        [HttpPost("user/role")]
         public async Task<IActionResult> AddUserToRole(string email, string roleName)
         {
             await _service.AddUserToRole(email, roleName);
@@ -56,9 +54,8 @@
         /// <response code="200">Created new Admin</response>
         /// <response code="400">Invalid values in required properties</response>
         /// <response code="409">Admin with those credentials exists</response>
-        [HttpPost]
         [SwaggerOperation(Summary = "Add New Admin")]
-        [Route("AddNewAdmin")]
+        [HttpPost("admin")]
         public async Task<IActionResult> AddNewAdmin([FromBody] UserRegistrationDto user)
         {
             if (ModelState.IsValid)
@@ -71,9 +68,8 @@
 
         /// <response code="200">Returned roles of specific user</response>
         /// <response code="404">Selected user doesn't exist</response>
-        [HttpGet]
         [SwaggerOperation(Summary = "Gets Roles Of Specific User")]
-        [Route("GetUserRoles")]
+        [HttpGet("user/roles")]
         public async Task<IActionResult> GetUserRoles(string email)
         {
             return Ok(await _service.GetUserRoles(email));
@@ -82,9 +78,8 @@
         /// <response code="204">Removed user from role</response>
         /// <response code="400">Can't remove role from user</response>
         /// <response code="404">Role or user doesn't exist</response>
-        [HttpDelete]
         [SwaggerOperation(Summary = "Remove User From Role")]
-        [Route("RemoveUserFromRole")]
+        [HttpDelete("user/role")]
         public async Task<IActionResult> RemoveUserFromRole(string email, string roleName)
         {
             await _service.RemoveUserFromRole(email, roleName);
@@ -94,9 +89,8 @@
         /// <response code="204">Removed user</response>
         /// <response code="400">Can't remove user</response>
         /// <response code="404">User doesn't exist</response>
-        [HttpDelete]
         [SwaggerOperation(Summary = "Remove User")]
-        [Route("RemoveUser")]
+        [HttpDelete("user")]
         public async Task<IActionResult> RemoveUser(string email)
         {
             await _service.RemoveUser(email);

@@ -14,9 +14,8 @@
         /// <response code="200">Registered new user</response>
         /// <response code="400">Invalid register request</response>
         /// <response code="409">User with those credentials exists</response>
-        [HttpPost]
         [SwaggerOperation(Summary = "Register New User")]
-        [Route("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationDto user)
         {
             if (ModelState.IsValid)
@@ -31,9 +30,8 @@
         /// <response code="200">Login succesful</response>
         /// <response code="400">Invalid login request</response>
         /// <response code="403">Credentials doesn't match</response>
-        [HttpPost]
         [SwaggerOperation(Summary = "Login with Email and Password")]
-        [Route("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequestDto user)
         {
             if (ModelState.IsValid)

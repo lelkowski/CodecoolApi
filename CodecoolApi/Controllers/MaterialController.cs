@@ -19,7 +19,7 @@
             => Ok(await _service.GetAllAsync());
 
         [SwaggerOperation(Summary = "Returns All Materials With Reviews Above Average")]
-        [HttpGet("average")]
+        [HttpGet("above-average")]
         public async Task<IActionResult> GetAllWithReviewsAboveAverageAsync()
             => Ok(await _service.GetAllWithNestedDataWithReviewsAboveAverageAsync());
 
@@ -49,7 +49,7 @@
         /// <response code="204">Returned all materials from selected author</response>
         /// <response code="404">Selected author was not found</response>
         [SwaggerOperation(Summary = "Returns All Materials With Reviews Above Average From Specific Author")]
-        [HttpGet("{id}/average")]
+        [HttpGet("{id}/above-average")]
         public async Task<IActionResult> GetAllWithReviewsAboveAverageFromSpecificAuthorAsync(int id)
             => Ok(await _service.GetAllWithNestedDataWithReviewsAboveAverageAsync(id));
 
